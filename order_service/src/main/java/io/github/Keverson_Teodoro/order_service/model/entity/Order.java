@@ -37,4 +37,7 @@ public class Order {
     @ManyToOne
     private Address address;
 
+    @Column(name = "payment_token")
+    private String paymentToken;
+
 }
