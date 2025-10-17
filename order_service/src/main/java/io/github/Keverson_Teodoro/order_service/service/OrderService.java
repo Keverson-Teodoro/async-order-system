@@ -4,9 +4,12 @@ import io.github.Keverson_Teodoro.order_service.DTO.NewOrderDTO;
 import io.github.Keverson_Teodoro.order_service.model.entity.Order;
 import io.github.Keverson_Teodoro.order_service.model.entity.Product;
 import io.github.Keverson_Teodoro.order_service.repository.OrderRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Base64;
 
 @Service
 public class OrderService {
@@ -17,6 +20,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
 
     public void newOrder(NewOrderDTO newOrderDTO){
 
@@ -26,11 +32,17 @@ public class OrderService {
         Order order = new Order();
         BeanUtils.copyProperties(newOrderDTO, order);
 
+        byte[] hashByte = Base64.getEncoder().encode(newOrderDTO.paymentMethod().getBytes());
+        String token = Base64.getEncoder().encodeToString(hashByte);
+        order.setPaymentToken(token);
+
         double totalOrder = 0.0;
         for(Product product : newOrderDTO.items()){
             totalOrder += product.getPrice();
         }
+
         order.setTotal(totalOrder);
         orderRepository.save(order);
+        rabbitTemplate.convertAndSend("orders.direct", order);
     }
 }

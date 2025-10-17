@@ -1,10 +1,12 @@
 package io.github.Keverson_Teodoro.order_service.model.entity;
 
+import io.github.Keverson_Teodoro.order_service.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -39,5 +41,12 @@ public class Order {
 
     @Column(name = "payment_token")
     private String paymentToken;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 }

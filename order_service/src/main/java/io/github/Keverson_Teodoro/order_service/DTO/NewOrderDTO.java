@@ -5,6 +5,6 @@ import io.github.Keverson_Teodoro.order_service.model.entity.Product;
 
 import java.util.List;
 
-public record NewOrderDTO(String idCustomer, List<Product> items, Address address, String paymentToken) {
+public record NewOrderDTO(String idCustomer, List<Product> items, Address address, String paymentMethod) {
 
 }
