@@ -1,10 +1,10 @@
-package io.github.Keverson_Teodoro.inventory_service;
+package io.github.Keverson_Teodoro.product_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class InventoryServiceApplicationTests {
+class ProductServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -7,9 +7,8 @@ import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
-@Component
+
 public class RabbitMQConexion {
 
     @Autowired
@@ -18,7 +17,7 @@ public class RabbitMQConexion {
 
     @Bean
     public Queue paymetSuccssed(){
-        return new Queue("payment.success", true, false, false);
+        return new Queue("payment.succeeded", true, false, false);
     }
 
     @Bean
@@ -29,12 +28,12 @@ public class RabbitMQConexion {
 
     @Bean
     public DirectExchange paymentDirect(){
-        return new DirectExchange("payment.direct", true, false, null);
+        return new DirectExchange("paymentSucceeded.direct", true, false, null);
     }
 
     @Bean
     public Binding paymentSuccessBinding(Queue queue, DirectExchange paymentExchange){
-        return BindingBuilder.bind(queue).to(paymentExchange).with("payment.direct");
+        return BindingBuilder.bind(queue).to(paymentExchange).with("paymentSucceeded.direct");
     }
 
 

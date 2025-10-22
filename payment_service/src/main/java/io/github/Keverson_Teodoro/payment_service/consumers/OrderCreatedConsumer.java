@@ -19,8 +19,9 @@ public class OrderCreatedConsumer {
 
         Payment payment = paymentService.verifyPayment(orderEvent);
         if (payment == null){
-            throw  new RuntimeException("failed");
+            System.out.println("consumer iniciado");
         }
+        System.out.println(orderEvent);
 
     }
 
