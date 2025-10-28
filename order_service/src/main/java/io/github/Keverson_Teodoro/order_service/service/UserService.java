@@ -6,12 +6,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class UserService {
 
-
     private final WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:8080/user")
+            .baseUrl("http://localhost:9094/user")
             .defaultHeader("Content-type", "application/json")
             .build();
-
 
     public boolean userExistResponse(String id){
         String body = String.format("{\"id\": \"%s\"}", id);
@@ -24,8 +22,4 @@ public class UserService {
                 .block();
 
     }
-
-
-
-
 }

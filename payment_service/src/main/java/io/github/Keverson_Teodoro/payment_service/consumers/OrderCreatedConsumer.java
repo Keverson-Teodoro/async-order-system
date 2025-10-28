@@ -14,7 +14,7 @@ public class OrderCreatedConsumer {
     private PaymentService paymentService;
 
 
-    @RabbitListener(queues = "order.created")
+    @RabbitListener(queues = "orders.created")
     public void paymentAprovment(OrderEventDTO orderEvent){
 
         Payment payment = paymentService.verifyPayment(orderEvent);

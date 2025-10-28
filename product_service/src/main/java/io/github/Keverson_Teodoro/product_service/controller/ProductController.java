@@ -18,7 +18,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-
     @PostMapping("/register")
     public void saveNewProduct(@RequestBody ProductRegisterDTO productRegisterDTO){
         productService.saveProduct(productRegisterDTO);
@@ -30,8 +29,8 @@ public class ProductController {
     }
 
     @PostMapping("/existents")
-    public List<ProductResponseDTO> validadeProductNames(@RequestBody ProductNamesRequestDTO productNames){
-        return productService.existentsProducts(productNames.names());
+    public List<ProductResponseDTO> validadeProductNames(@RequestBody List<String> productNames){
+        return productService.existentsProducts(productNames);
     }
 
 

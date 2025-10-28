@@ -13,13 +13,9 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
-
     public void saveAddress(AddressDTO addressDTO){
-
         Address address = new Address();
         BeanUtils.copyProperties(addressDTO, address);
         addressRepository.save(address);
     }
-
-
 }

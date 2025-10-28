@@ -1,13 +1,11 @@
 package io.github.Keverson_Teodoro.payment_service.conexions;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-
 
 public class RabbitMQConexion {
 
@@ -35,7 +33,6 @@ public class RabbitMQConexion {
     public Binding paymentSuccessBinding(Queue queue, DirectExchange paymentExchange){
         return BindingBuilder.bind(queue).to(paymentExchange).with("paymentSucceeded.direct");
     }
-
 
     @PostConstruct
     public void addQueues(){

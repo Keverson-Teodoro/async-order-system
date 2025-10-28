@@ -6,6 +6,7 @@ import io.github.Keverson_Teodoro.product_service.DTO.ProductRegisterDTO;
 import io.github.Keverson_Teodoro.product_service.DTO.ProductResponseDTO;
 import io.github.Keverson_Teodoro.product_service.model.entity.Product;
 import io.github.Keverson_Teodoro.product_service.repository.ProductRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public void saveProduct(ProductRegisterDTO productRegisterDTO){
         Product product = new Product();
@@ -29,14 +32,12 @@ public class ProductService {
         productRepository.save(product);
     }
 
-
     public boolean verifyProduct (ProductIdRequestDTO productIdRequestDTO){
         Optional<Product> product = productRepository.findById(productIdRequestDTO.id());
         return product.isPresent();
     }
 
     public List<ProductResponseDTO> existentsProducts(List<String> produtNames){
-
         List<ProductResponseDTO> products = new ArrayList<>();
         List<String> existingNames = new ArrayList<>();
 
@@ -44,20 +45,20 @@ public class ProductService {
             if(!existingNames.contains(p.getName())){
                 existingNames.add(p.getName());
             }
-
         });
 
-        produtNames.forEach(x -> {
-            if(!existingNames.contains(x)){
-                throw new RuntimeException("Produto não encontrado " + x);
+        produtNames.forEach(product -> {
+            if(!existingNames.contains(product)){
+                product = null;
+                throw new RuntimeException("Produto não encontrado " + product);
             }
             ProductResponseDTO productResponseDTO = new ProductResponseDTO();
-            Product product = productRepository.findByName(x);
-            BeanUtils.copyProperties(product, productResponseDTO);
+            Product findedProduct = productRepository.findByName(product);
+            BeanUtils.copyProperties(findedProduct, productResponseDTO);
             products.add(productResponseDTO);
-
         });
 
+        rabbitTemplate.convertAndSend("productSend.direct", products);
         return products;
     }
 

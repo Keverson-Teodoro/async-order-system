@@ -1,11 +1,13 @@
 package io.github.Keverson_Teodoro.order_service.model.entity;
 
+import io.github.Keverson_Teodoro.order_service.DTO.ProductResponseDTO;
 import io.github.Keverson_Teodoro.order_service.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_table")
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -24,14 +26,6 @@ public class Order {
     @Column(name = "id_costumer")
     private String customerId;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> items;
-
     @Column(name = "total")
     private double total;
 
@@ -40,7 +34,10 @@ public class Order {
     private Address address;
 
     @Column(name = "payment_token")
-    private String paymentToken;
+    private String paymentMethod;
+
+    @Column(name = "items")
+    private List<ProductResponseDTO> items;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -48,5 +45,4 @@ public class Order {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
 }
