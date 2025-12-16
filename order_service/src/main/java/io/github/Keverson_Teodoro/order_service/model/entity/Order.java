@@ -36,7 +36,8 @@ public class Order implements Serializable {
     @Column(name = "payment_token")
     private String paymentMethod;
 
-    @Column(name = "items")
+    @ElementCollection
+    @CollectionTable(name = "order_items", joinColumns = @JoinColumn(name = "order_id"))
     private List<ProductResponseDTO> items;
 
     @Column(name = "status")

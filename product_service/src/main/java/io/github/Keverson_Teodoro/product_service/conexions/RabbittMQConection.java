@@ -1,6 +1,7 @@
 package io.github.Keverson_Teodoro.product_service.conexions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -17,6 +18,7 @@ public class RabbittMQConection {
     @Bean
     public Jackson2JsonMessageConverter messageConverter(){
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 

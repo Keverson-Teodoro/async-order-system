@@ -21,21 +21,17 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
 
     public Payment verifyPayment(OrderEventDTO order){
-
         boolean isAproved = simulatePaymentAproval();
 
         if(isAproved){
-            byte[] decodedTokenByetes = Base64.getDecoder().decode(order.paymentToken());
+            byte[] decodedTokenByetes = Base64.getDecoder().decode(order.getPaymentMethod());
             String method = new String(decodedTokenByetes, StandardCharsets.UTF_8);
 
-            Payment payment = new Payment(order.total(), method, PaymentStatus.SUCCEEDED, LocalDateTime.now());
+            Payment payment = new Payment(order.getTotal(), method, PaymentStatus.SUCCEEDED, LocalDateTime.now());
             return payment;
         }
-
         return null;
-
     }
-
 
     private boolean simulatePaymentAproval(){
         Random random = new Random();

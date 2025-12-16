@@ -1,19 +1,39 @@
 package io.github.Keverson_Teodoro.order_service.conexions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.github.Keverson_Teodoro.order_service.DTO.OrderEventDTO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
+import org.springframework.amqp.support.converter.Jackson2JavaTypeMapper;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import static org.springframework.amqp.support.converter.Jackson2JavaTypeMapper.TypePrecedence.INFERRED;
 
 @Component
 public class RabbitMQConection {
 
     @Autowired
     private AmqpAdmin amqpAdmin;
+
+    @Bean
+    public Jackson2JsonMessageConverter jsonConverter() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        return new Jackson2JsonMessageConverter(objectMapper);
+    }
+
+
 
     @Bean
     public Queue orderCreated(){
@@ -25,11 +45,6 @@ public class RabbitMQConection {
         return new DirectExchange("orders.direct", true, false);
     }
 
-//    @Bean
-//    public Binding bidingOrderCreated (Queue queue, DirectExchange directExchange){
-//        return BindingBuilder.bind(queue).to(directExchange).with("orders.direct");
-//    }
-//
     @Bean
     public Binding bindingOrdersDirect (Queue queue, DirectExchange directExchange){
         return new Binding(queue.getName(), Binding.DestinationType.QUEUE, directExchange.getName(), "orders.created", null);
@@ -40,6 +55,5 @@ public class RabbitMQConection {
         amqpAdmin.declareQueue(orderCreated());
         amqpAdmin.declareExchange(exchangeOrderCreated());
         amqpAdmin.declareBinding(bindingOrdersDirect(orderCreated(), exchangeOrderCreated()));
-
     }
 }

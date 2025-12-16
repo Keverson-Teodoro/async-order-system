@@ -1,6 +1,6 @@
-package io.github.Keverson_Teodoro.payment_service.DTO;
+package io.github.Keverson_Teodoro.order_service.DTO;
 
-import io.github.Keverson_Teodoro.payment_service.model.enums.OrderStatus;
+import io.github.Keverson_Teodoro.order_service.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +26,9 @@ public class OrderEventDTO implements Serializable {
 
     private String paymentMethod;
 
-    private List<ProductReponseDTO> items;
+    private List<ProductResponseDTO> items;
 
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     private LocalDateTime createdAt;
 }

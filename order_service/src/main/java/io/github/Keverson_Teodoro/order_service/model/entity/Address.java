@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "order_address_table")
 @NoArgsConstructor
-public class Address implements Serializable{
+public class Address {
 
     @Id
     @Column(name = "id")

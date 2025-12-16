@@ -15,11 +15,8 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-
     @PostMapping
     public void saveAddress(@RequestBody AddressDTO addressDTO){
-
         addressService.saveAddress(addressDTO);
-
     }
 }

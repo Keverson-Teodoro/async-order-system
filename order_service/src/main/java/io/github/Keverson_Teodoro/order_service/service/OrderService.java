@@ -1,6 +1,8 @@
 package io.github.Keverson_Teodoro.order_service.service;
 
+import io.github.Keverson_Teodoro.order_service.DTO.AddressDTO;
 import io.github.Keverson_Teodoro.order_service.DTO.NewOrderDTO;
+import io.github.Keverson_Teodoro.order_service.DTO.OrderEventDTO;
 import io.github.Keverson_Teodoro.order_service.DTO.ProductResponseDTO;
 import io.github.Keverson_Teodoro.order_service.model.entity.Address;
 import io.github.Keverson_Teodoro.order_service.model.entity.Order;
@@ -42,6 +44,7 @@ public class OrderService {
         boolean clientExist = userService.userExistResponse(newOrderDTO.idCustomer());
 
         Address address = addressRepository.findById(newOrderDTO.idAddress()).orElseThrow( () -> new RuntimeException("Endereço não encontrado"));
+        AddressDTO addressDTO = new AddressDTO(address.getStreet(), address.getCity(), address.getNumber(), address.getCep());
         if (!clientExist) throw new RuntimeException("Usuário não encontrado");
 
         Order order = new Order();
@@ -56,14 +59,25 @@ public class OrderService {
             throw new RuntimeException("produtos não encontrados.");
         }
 
+        Double total = 0.0;
+        for (ProductResponseDTO product : orderItems) {
+            total += product.getPrice();
+        }
+
         order.setPaymentMethod(token);
         order.setAddress(address);
         order.setCreatedAt(LocalDateTime.now());
         order.setItems(orderItems);
         order.setOrderStatus(OrderStatus.PENDING);
         order.setCustomerId(newOrderDTO.idCustomer());
+        order.setTotal(total);
 
-        orderEventProducer.publishMessage(order);
+        OrderEventDTO orderEventDTO = new OrderEventDTO();
+        BeanUtils.copyProperties(order, orderEventDTO);
+        orderEventDTO.setAddress(addressDTO);
+
         orderRepository.save(order);
+        orderEventProducer.publishMessage(orderEventDTO);
+
     }
 }

@@ -1,4 +1,4 @@
-package io.github.Keverson_Teodoro.order_service.DTO;
+package io.github.Keverson_Teodoro.payment_service.DTO;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class ProductResponseDTO implements Serializable {
+public class ProductReponseDTO implements Serializable {
 
     private String name;
     private Double price;
