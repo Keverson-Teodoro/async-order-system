@@ -42,24 +42,23 @@ public class ProductService {
         List<String> existingNames = new ArrayList<>();
 
         productRepository.findAll().forEach(p -> {
-            if(!existingNames.contains(p.getName())){
+            if(!existingNames.contains(p.getName()) && p.getQuantity() > 0){
                 existingNames.add(p.getName());
             }
         });
 
         produtNames.forEach(product -> {
-            if(!existingNames.contains(product)){
+            if (!existingNames.contains(product)) {
                 product = null;
                 throw new RuntimeException("Produto não encontrado " + product);
             }
             ProductResponseDTO productResponseDTO = new ProductResponseDTO();
             Product findedProduct = productRepository.findByName(product);
+            findedProduct.setQuantity(findedProduct.getQuantity()-1);
             BeanUtils.copyProperties(findedProduct, productResponseDTO);
             products.add(productResponseDTO);
         });
 
-        rabbitTemplate.convertAndSend("productSend.direct", products);
         return products;
     }
-
 }
