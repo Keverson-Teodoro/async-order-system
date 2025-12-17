@@ -4,13 +4,11 @@ import io.github.Keverson_Teodoro.payment_service.DTO.OrderEventDTO;
 import io.github.Keverson_Teodoro.payment_service.model.entity.Payment;
 import io.github.Keverson_Teodoro.payment_service.model.enums.PaymentStatus;
 import io.github.Keverson_Teodoro.payment_service.repository.PaymentRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
@@ -23,14 +21,15 @@ public class PaymentService {
     public Payment verifyPayment(OrderEventDTO order){
         boolean isAproved = simulatePaymentAproval();
 
+        Payment payment = new Payment(order.getTotal(), order.getPaymentMethod(), PaymentStatus.FAILED, LocalDateTime.now());
+
         if(isAproved){
             byte[] decodedTokenByetes = Base64.getDecoder().decode(order.getPaymentMethod());
             String method = new String(decodedTokenByetes, StandardCharsets.UTF_8);
-
-            Payment payment = new Payment(order.getTotal(), method, PaymentStatus.SUCCEEDED, LocalDateTime.now());
-            return payment;
+            payment.setMethod(method);
+            payment.setPaymentStatus(PaymentStatus.SUCCEEDED);
         }
-        return null;
+        return payment;
     }
 
     private boolean simulatePaymentAproval(){

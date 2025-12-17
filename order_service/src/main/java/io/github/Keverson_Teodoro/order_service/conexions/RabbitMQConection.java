@@ -2,21 +2,15 @@ package io.github.Keverson_Teodoro.order_service.conexions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.github.Keverson_Teodoro.order_service.DTO.OrderEventDTO;
 import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.DefaultClassMapper;
-import org.springframework.amqp.support.converter.Jackson2JavaTypeMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import static org.springframework.amqp.support.converter.Jackson2JavaTypeMapper.TypePrecedence.INFERRED;
 
 @Component
 public class RabbitMQConection {
@@ -32,8 +26,6 @@ public class RabbitMQConection {
 
         return new Jackson2JsonMessageConverter(objectMapper);
     }
-
-
 
     @Bean
     public Queue orderCreated(){
