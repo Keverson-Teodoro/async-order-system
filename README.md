@@ -6,9 +6,9 @@
 
 - 🚀 Visão Geral
 
-Este projeto simula o fluxo completo de **pedidos de compra online**, utilizando comunicação assíncrona entre diferentes microserviços.
+Este projeto simula o fluxo de **pedidos de compra online**, utilizando comunicação síncrona e assíncrona entre diferentes microserviços.
 
-Cada serviço é responsável por um contexto de negócio isolado e se comunica via **mensageria RabbitMQ**.  
+Cada serviço é responsável por um contexto de negócio isolado e se comunica via **mensageria RabbitMQ** e Protocólo HTTP.  
 A arquitetura reflete um cenário real de sistemas escaláveis e desacoplados.
 
 ---
