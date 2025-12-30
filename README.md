@@ -56,7 +56,7 @@ O Notification Service consome o evento payment.success e envia um e-mail de con
 🧩 Diagrama da Arquitetura
 
                   ┌────────────────────┐
-                  │   Client / API     │
+                  │   User / API     │
                   └─────────┬──────────┘
                             │
                             ▼
