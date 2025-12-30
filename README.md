@@ -22,7 +22,6 @@ A arquitetura reflete um cenário real de sistemas escaláveis e desacoplados.
 - 🐳 **Docker & Docker Compose**
 - 🧠 **Spring AMQP**
 - 💬 **Jackson2JsonMessageConverter** (para serialização JSON)
-- 🔄 **Spring Retry & DLQ (Dead Letter Queues)** *(opcional)*
 
 ---
 
