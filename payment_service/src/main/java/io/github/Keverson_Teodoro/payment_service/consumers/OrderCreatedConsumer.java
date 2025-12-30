@@ -1,7 +1,7 @@
 package io.github.Keverson_Teodoro.payment_service.consumers;
 
 import io.github.Keverson_Teodoro.payment_service.DTO.OrderEventDTO;
-import io.github.Keverson_Teodoro.payment_service.model.entity.Payment;
+import io.github.Keverson_Teodoro.payment_service.DTO.PaymentResponseEventDTO;
 import io.github.Keverson_Teodoro.payment_service.model.enums.PaymentStatus;
 import io.github.Keverson_Teodoro.payment_service.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class OrderCreatedConsumer {
     @RabbitListener(queues = "orders.created", containerFactory = "containerFactory")
     public void paymentAprovment(@Payload OrderEventDTO orderEvent){
 
-        Payment payment = paymentService.verifyPayment(orderEvent);
+        PaymentResponseEventDTO payment = paymentService.verifyPayment(orderEvent);
 
         if(payment.getPaymentStatus().equals(PaymentStatus.FAILED)) {
             rabbitTemplate.convertAndSend("payment.failed", payment);

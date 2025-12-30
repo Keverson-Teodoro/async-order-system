@@ -1,9 +1,11 @@
 package io.github.Keverson_Teodoro.payment_service.service;
 
 import io.github.Keverson_Teodoro.payment_service.DTO.OrderEventDTO;
+import io.github.Keverson_Teodoro.payment_service.DTO.PaymentResponseEventDTO;
 import io.github.Keverson_Teodoro.payment_service.model.entity.Payment;
 import io.github.Keverson_Teodoro.payment_service.model.enums.PaymentStatus;
 import io.github.Keverson_Teodoro.payment_service.repository.PaymentRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +20,27 @@ public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    public Payment verifyPayment(OrderEventDTO order){
+    public PaymentResponseEventDTO verifyPayment(OrderEventDTO order){
         boolean isAproved = simulatePaymentAproval();
 
-        Payment payment = new Payment(order.getTotal(), order.getPaymentMethod(), PaymentStatus.FAILED, LocalDateTime.now());
+        Payment payment = new Payment();
+        PaymentResponseEventDTO paymentResponseEventDTO = new PaymentResponseEventDTO(
+                payment.getIdPayment(),
+                order.getTotal(),
+                order.getPaymentMethod(),
+                PaymentStatus.FAILED,
+                LocalDateTime.now(),
+                order.getItems());
 
         if(isAproved){
             byte[] decodedTokenByetes = Base64.getDecoder().decode(order.getPaymentMethod());
             String method = new String(decodedTokenByetes, StandardCharsets.UTF_8);
-            payment.setMethod(method);
-            payment.setPaymentStatus(PaymentStatus.SUCCEEDED);
+            paymentResponseEventDTO.setPaymentStatus(PaymentStatus.SUCCEEDED);
+            paymentResponseEventDTO.setMethod(method);
         }
-        return payment;
+        BeanUtils.copyProperties(paymentResponseEventDTO, payment);
+        paymentRepository.save(payment);
+        return paymentResponseEventDTO;
     }
 
     private boolean simulatePaymentAproval(){

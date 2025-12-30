@@ -1,5 +1,7 @@
 package io.github.Keverson_Teodoro.payment_service.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.Keverson_Teodoro.payment_service.DTO.ProductReponseDTO;
 import io.github.Keverson_Teodoro.payment_service.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "payment_table")
@@ -32,7 +35,6 @@ public class Payment {
 
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
-
 
     public Payment(double amount, String method, PaymentStatus paymentStatus, LocalDateTime processedAt) {
         this.amount = amount;
