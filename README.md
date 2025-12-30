@@ -54,6 +54,7 @@ O Product Service consome o evento payment.failed para realizar o rollback da qu
 O Notification Service consome o evento payment.success e envia um e-mail de confirmação ao usuário.
 
 🧩 Diagrama da Arquitetura
+
                   ┌────────────────────┐
                   │   Client / API     │
                   └─────────┬──────────┘
@@ -83,6 +84,7 @@ O Notification Service consome o evento payment.success e envia um e-mail de con
      │ Service         │ │ (Rollback Estoque)  │
      │ (Email)         │ └────────────────────┘
      └─────────────────┘
+
 
 📌 Considerações Arquiteturais
 
