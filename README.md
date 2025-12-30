@@ -1,6 +1,6 @@
 # async-order-system
 
-> Sistema distribuído avançado construído com **Spring Boot**, **RabbitMQ** e **bancos de dados independentes**, demonstrando uma arquitetura **orientada a eventos (Event-Driven)** entre múltiplos microserviços.
+> Sistema distribuído construído com **Spring Boot**, **RabbitMQ** e **bancos de dados independentes**, demonstrando uma arquitetura **orientada a eventos (Event-Driven)** entre múltiplos microserviços.
 
 ---
 
