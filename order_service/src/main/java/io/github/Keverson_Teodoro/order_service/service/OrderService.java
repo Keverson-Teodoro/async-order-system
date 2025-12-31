@@ -10,7 +10,6 @@ import io.github.Keverson_Teodoro.order_service.model.enums.OrderStatus;
 import io.github.Keverson_Teodoro.order_service.producers.OrderEventProducer;
 import io.github.Keverson_Teodoro.order_service.repository.AddressRepository;
 import io.github.Keverson_Teodoro.order_service.repository.OrderRepository;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

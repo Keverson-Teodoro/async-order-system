@@ -41,9 +41,9 @@
             return new Queue("payment.success", true, false, false);
         }
 
-        @Bean("paymentSuccessDirect")
+        @Bean("paymentSuccessExchange")
         @Primary
-        public DirectExchange paymentSuccessDirect(){
+        public DirectExchange paymentSuccessExchange(){
             return new DirectExchange("paymentSuccess.direct", true, false, null);
         }
 
@@ -65,16 +65,5 @@
         @Bean("paymentFaileBinding")
         public Binding paymentFailedBinding (Queue paymentFailedQueue, DirectExchange paymentFailedExchange) {
             return BindingBuilder.bind(paymentFailedQueue).to(paymentFailedExchange).with("payment.failed");
-        }
-
-        @PostConstruct
-        public void add () {
-            amqpAdmin.declareQueue(paymetSuccessQueue());
-            amqpAdmin.declareExchange(paymentSuccessDirect());
-            amqpAdmin.declareBinding(paymentSuccessBinding(paymetSuccessQueue(), paymentSuccessDirect()));
-
-            amqpAdmin.declareQueue(paymentFailedQueue());
-            amqpAdmin.declareExchange(paymentFailedExchange());
-            amqpAdmin.declareBinding(paymentFailedBinding(paymentFailedQueue(), paymentFailedExchange()));
         }
     }

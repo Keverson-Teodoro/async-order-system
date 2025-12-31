@@ -1,6 +1,7 @@
 package io.github.Keverson_Teodoro.product_service.service;
 
 
+import io.github.Keverson_Teodoro.product_service.DTO.PaymentResponseDTO;
 import io.github.Keverson_Teodoro.product_service.DTO.ProductIdRequestDTO;
 import io.github.Keverson_Teodoro.product_service.DTO.ProductRegisterDTO;
 import io.github.Keverson_Teodoro.product_service.DTO.ProductResponseDTO;
@@ -60,5 +61,15 @@ public class ProductService {
         });
 
         return products;
+    }
+
+    public void setStockQuantity (List<ProductResponseDTO> items) {
+        items.forEach(item -> {
+            Product product = productRepository.findByName(item.getName());
+            if (product != null) {
+                product.setQuantity(product.getQuantity() + 1);
+                productRepository.save(product);
+            }
+        });
     }
 }

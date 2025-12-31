@@ -23,9 +23,11 @@ public class OrderCreatedConsumer {
 
         PaymentResponseEventDTO payment = paymentService.verifyPayment(orderEvent);
 
-        if(payment.getPaymentStatus().equals(PaymentStatus.FAILED)) {
+        if(payment.getPaymentStatus() == PaymentStatus.FAILED) {
             rabbitTemplate.convertAndSend("payment.failed", payment);
         }
-        rabbitTemplate.convertAndSend("payment.success", payment);
+        if (payment.getPaymentStatus() == PaymentStatus.SUCCEEDED) {
+            rabbitTemplate.convertAndSend("payment.success", payment);
+        }
     }
 }
