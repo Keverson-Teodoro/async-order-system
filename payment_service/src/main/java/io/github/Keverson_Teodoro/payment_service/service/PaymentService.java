@@ -30,7 +30,8 @@ public class PaymentService {
                 order.getPaymentMethod(),
                 PaymentStatus.FAILED,
                 LocalDateTime.now(),
-                order.getItems());
+                order.getItems(),
+                order.getCustomerEmail());
 
         if(isAproved){
             byte[] decodedTokenByetes = Base64.getDecoder().decode(order.getPaymentMethod());

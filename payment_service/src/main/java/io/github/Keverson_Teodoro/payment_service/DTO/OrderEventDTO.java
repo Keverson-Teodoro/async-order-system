@@ -31,4 +31,6 @@ public class OrderEventDTO implements Serializable {
     private String orderStatus;
 
     private LocalDateTime createdAt;
+
+    private String customerEmail;
 }

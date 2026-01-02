@@ -23,8 +23,8 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "id_costumer")
-    private String emailCustomer;
+    @Column(name = "custumer_email")
+    private String customerEmail;
 
     @Column(name = "total")
     private double total;

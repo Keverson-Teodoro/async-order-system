@@ -37,7 +37,7 @@ public class OrderService {
     private OrderEventProducer orderEventProducer;
 
     public void newOrder(NewOrderDTO newOrderDTO){
-        boolean clientExist = userService.userExistResponse(newOrderDTO.emailCustumer());
+        boolean clientExist = userService.userExistResponse(newOrderDTO.customerEmail());
 
         Address address = addressRepository.findById(newOrderDTO.idAddress()).orElseThrow( () -> new RuntimeException("Endereço não encontrado"));
         AddressDTO addressDTO = new AddressDTO(address.getStreet(), address.getCity(), address.getNumber(), address.getCep());
@@ -65,7 +65,7 @@ public class OrderService {
         order.setCreatedAt(LocalDateTime.now());
         order.setItems(orderItems);
         order.setOrderStatus(OrderStatus.PENDING);
-        order.setEmailCustomer(newOrderDTO.emailCustumer());
+        order.setCustomerEmail(newOrderDTO.customerEmail());
         order.setTotal(total);
 
         OrderEventDTO orderEventDTO = new OrderEventDTO();
