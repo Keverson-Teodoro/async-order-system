@@ -24,7 +24,7 @@ public class Order implements Serializable {
     private String id;
 
     @Column(name = "id_costumer")
-    private String customerId;
+    private String emailCustomer;
 
     @Column(name = "total")
     private double total;

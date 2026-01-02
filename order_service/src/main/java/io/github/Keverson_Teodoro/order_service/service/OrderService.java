@@ -10,7 +10,6 @@ import io.github.Keverson_Teodoro.order_service.model.enums.OrderStatus;
 import io.github.Keverson_Teodoro.order_service.producers.OrderEventProducer;
 import io.github.Keverson_Teodoro.order_service.repository.AddressRepository;
 import io.github.Keverson_Teodoro.order_service.repository.OrderRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +28,6 @@ public class OrderService {
     private UserService userService;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
     private AddressRepository addressRepository;
 
     @Autowired
@@ -41,7 +37,7 @@ public class OrderService {
     private OrderEventProducer orderEventProducer;
 
     public void newOrder(NewOrderDTO newOrderDTO){
-        boolean clientExist = userService.userExistResponse(newOrderDTO.idCustomer());
+        boolean clientExist = userService.userExistResponse(newOrderDTO.emailCustumer());
 
         Address address = addressRepository.findById(newOrderDTO.idAddress()).orElseThrow( () -> new RuntimeException("Endereço não encontrado"));
         AddressDTO addressDTO = new AddressDTO(address.getStreet(), address.getCity(), address.getNumber(), address.getCep());
@@ -69,7 +65,7 @@ public class OrderService {
         order.setCreatedAt(LocalDateTime.now());
         order.setItems(orderItems);
         order.setOrderStatus(OrderStatus.PENDING);
-        order.setCustomerId(newOrderDTO.idCustomer());
+        order.setEmailCustomer(newOrderDTO.emailCustumer());
         order.setTotal(total);
 
         OrderEventDTO orderEventDTO = new OrderEventDTO();

@@ -18,19 +18,18 @@ public class UserService {
 
     public ResponseEntity<String> registrateUser(UserRegisterDTO userRegisterDTO){
 
-        UserEntity user = new UserEntity();
-        user.setNome(userRegisterDTO.nome());
-        user.setEmail(userRegisterDTO.email());
-        user.setTelefone(userRegisterDTO.telefone());
-        System.out.println(userRegisterDTO);
+        if (userRepository.findByEmail(userRegisterDTO.email()).isPresent() || userRepository.findByTelefone(userRegisterDTO.telefone()).isPresent()) {
+            return ResponseEntity.badRequest().body("Usuário já cadastrado");
+        }
+        UserEntity user = new UserEntity(userRegisterDTO.nome(), userRegisterDTO.email(), userRegisterDTO.telefone());
         userRepository.save(user);
 
         return ResponseEntity.ok("Usuario cadastrado com sucesso");
     }
 
-    public boolean userExistById(VerifyUserExistDTO id){
+    public boolean userExistById(VerifyUserExistDTO verifyUserExistDTO){
 
-        Optional<UserEntity> user = userRepository.findById(id.id());
+        Optional<UserEntity> user = userRepository.findByEmail(verifyUserExistDTO.email());
         return user.isPresent();
 
     }

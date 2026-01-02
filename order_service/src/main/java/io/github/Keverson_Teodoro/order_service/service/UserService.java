@@ -11,15 +11,15 @@ public class UserService {
             .defaultHeader("Content-type", "application/json")
             .build();
 
-    public boolean userExistResponse(String id){
-        String body = String.format("{\"id\": \"%s\"}", id);
+    public boolean userExistResponse(String email){
+        String body = String.format("{\"email\": \"%s\"}", email);
 
-        return webClient.post()
+        return Boolean.TRUE.equals(webClient.post()
                 .uri("/userExist")
                 .bodyValue(body)
                 .retrieve()
                 .bodyToMono(Boolean.class)
-                .block();
+                .block());
 
     }
 }

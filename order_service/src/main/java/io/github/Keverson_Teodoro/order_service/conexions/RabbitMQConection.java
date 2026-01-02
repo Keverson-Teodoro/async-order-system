@@ -2,7 +2,6 @@ package io.github.Keverson_Teodoro.order_service.conexions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.annotation.PostConstruct;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.DirectExchange;
@@ -40,12 +39,5 @@ public class RabbitMQConection {
     @Bean
     public Binding bindingOrdersDirect (Queue queue, DirectExchange directExchange){
         return new Binding(queue.getName(), Binding.DestinationType.QUEUE, directExchange.getName(), "orders.created", null);
-    }
-
-    @PostConstruct
-    public void addQueueOrderCreated(){
-        amqpAdmin.declareQueue(orderCreated());
-        amqpAdmin.declareExchange(exchangeOrderCreated());
-        amqpAdmin.declareBinding(bindingOrdersDirect(orderCreated(), exchangeOrderCreated()));
     }
 }
