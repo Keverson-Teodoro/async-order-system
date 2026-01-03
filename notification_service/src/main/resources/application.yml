@@ -7,3 +7,15 @@ spring:
     password: 123456
     port: 5672
     host: localhost
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: keverson.teodoro@youxlab.com.br
+    password: wchx tlyn fmij xvnn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

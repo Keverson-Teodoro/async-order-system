@@ -1,6 +1,5 @@
 package io.github.Keverson_Teodoro.payment_service.DTO;
 
-import io.github.Keverson_Teodoro.payment_service.model.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class OrderEventDTO implements Serializable {
 
     private String id;
 
-    private String customerId;
+    private String customerEmail;
 
     private double total;
 
@@ -31,6 +30,4 @@ public class OrderEventDTO implements Serializable {
     private String orderStatus;
 
     private LocalDateTime createdAt;
-
-    private String customerEmail;
 }

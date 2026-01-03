@@ -18,7 +18,7 @@ public class OrderEventDTO implements Serializable {
 
     private String id;
 
-    private String customerId;
+    private String customerEmail;
 
     private double total;
 

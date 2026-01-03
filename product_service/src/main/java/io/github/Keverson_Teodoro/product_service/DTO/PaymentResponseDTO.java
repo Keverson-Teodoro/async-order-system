@@ -11,6 +11,7 @@ public record PaymentResponseDTO (
         String method,
         PaymentStatus paymentStatus,
         LocalDateTime processedAt,
-        List<ProductResponseDTO> items
+        List<ProductResponseDTO> items,
+        String customerEmail
 ) {
 }
